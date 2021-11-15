@@ -23,4 +23,9 @@ public class Player : MonoBehaviour
     private void FixedUpdate() {
         movement.Move(rb, direction, isJumping);
     }
+
+    public Rigidbody2D GetRigidbody2D(){ return rb; }
+    public void Die(){
+        
+    }
 }

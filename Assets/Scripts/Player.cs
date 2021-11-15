@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
 
     public Rigidbody2D GetRigidbody2D(){ return rb; }
     public void Die(){
-        
+
     }
+    
 }

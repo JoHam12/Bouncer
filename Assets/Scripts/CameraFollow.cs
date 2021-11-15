@@ -13,6 +13,7 @@ public class CameraFollow : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        if(!target){ return ; }
         transform.position = new Vector3(target.position.x, target.position.y, z);    
         if(!checkGrounded.isGrounded){
             z = Mathf.Lerp(z, offset, .2f);

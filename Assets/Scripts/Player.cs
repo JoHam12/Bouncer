@@ -8,11 +8,14 @@ public class Player : MonoBehaviour
     private Vector3 direction;
     public bool isJumping;
     [SerializeField] private Transform groundChecker;
+    [SerializeField] private ParticleSystem particles;
 
     void Start(){
         movement = GetComponent<Movement>();
         rb = GetComponent<Rigidbody2D>();
         isJumping = false;
+        particles = transform.Find("/DeathParticles").GetComponent<ParticleSystem>();
+        particles.Stop();
     }
     
     private void Update() {
@@ -26,7 +29,12 @@ public class Player : MonoBehaviour
 
     public Rigidbody2D GetRigidbody2D(){ return rb; }
     public void Die(){
-
+        Debug.Log("Dead");
+        particles.transform.position = transform.position;
+        particles.Play();
+        GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(this);
+        
     }
-    
+
 }

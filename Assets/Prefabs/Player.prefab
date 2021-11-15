@@ -105,6 +105,7 @@ MonoBehaviour:
   movement: {fileID: 2827578780901336172}
   isJumping: 0
   groundChecker: {fileID: 2827578781635340330}
+  particles: {fileID: 0}
 --- !u!114 &2827578780901336172
 MonoBehaviour:
   m_ObjectHideFlags: 0

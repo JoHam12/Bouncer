@@ -28,12 +28,12 @@ public class Player : MonoBehaviour
     }
 
     public Rigidbody2D GetRigidbody2D(){ return rb; }
+    public void SetParticleSystem(ParticleSystem particles){ this.particles = particles; }
     public void Die(){
         Debug.Log("Dead");
         particles.transform.position = transform.position;
         particles.Play();
-        GetComponent<SpriteRenderer>().enabled = false;
-        Destroy(this);
+        Destroy(this.gameObject);
         
     }
 

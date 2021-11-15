@@ -3,12 +3,10 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform target;
-    private Player player;
     [SerializeField] private CheckGrounded checkGrounded;
     [SerializeField] private float offset, firstVal;
     private float z;
     private void Start(){
-        player = target.GetComponent<Player>();
         z = firstVal;
     }
 
@@ -21,4 +19,7 @@ public class CameraFollow : MonoBehaviour
         }
         z = Mathf.Lerp(z, firstVal, .2f);
     }
+
+    public void SetTarget(Transform target){ this.target = target; }
+    public void SetGroundCheck(CheckGrounded checkGrounded){ this.checkGrounded = checkGrounded; }
 }

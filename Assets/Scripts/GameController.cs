@@ -1,18 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    [SerializeField] private GameObject player;
+    private GameObject playerInstance;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private CameraFollow cam;
+    [SerializeField] private ParticleSystem particles;
+
+    private void Awake() {
+        particles.Stop();
+    }
+    private void Start() {
+        SpawnPlayer();
+    }
+    private void Update() {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void SpawnPlayer(){
+        playerInstance = Instantiate(player, spawnPoint.position, spawnPoint.rotation);
+        cam.SetTarget(playerInstance.transform);
+        cam.SetGroundCheck(playerInstance.GetComponentInChildren<CheckGrounded>());
+        playerInstance.GetComponent<Player>().SetParticleSystem(particles);
     }
 }

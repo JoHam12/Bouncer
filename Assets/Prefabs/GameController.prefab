@@ -49,3 +49,19 @@ MonoBehaviour:
   particles: {fileID: 0}
   endLevel: 0
   restartButton: {fileID: 0}
+  coins:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  timeText: {fileID: 0}
+  scoreText: {fileID: 0}
+  menuButton: {fileID: 0}
+  finalTimeText: {fileID: 0}
+  finalScoreText: {fileID: 0}

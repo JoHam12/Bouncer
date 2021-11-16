@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<GameObject> coins;
     private float timer, timerStart;
     [SerializeField] private TextMeshProUGUI timeText, scoreText; 
+    [SerializeField] private Button menuButton;
+    [SerializeField] private TextMeshProUGUI finalTimeText, finalScoreText;
     private void Awake() {
         particles.Stop();
     }
@@ -22,18 +24,27 @@ public class GameController : MonoBehaviour
         Restart();
     }
     private void Update() {
-        timer = Time.time - timerStart;
-        timeText.text = "Time : " + (int) timer;
 
-        if(!playerInstance){ return ; }
+        if(playerInstance == null){ return ; }
         Player playerInst = playerInstance.GetComponent<Player>();
-        scoreText.text = "Score : " + playerInst.GetScore();
         if(endLevel){
             Debug.Log("EndLevel");
             playerInst.canMove = false;
             playerInstance.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            if(!restartButton.gameObject.activeInHierarchy){ restartButton.gameObject.SetActive(true); }
+            finalScoreText.gameObject.SetActive(true);
+            finalScoreText.text = "Score : " + playerInst.GetScore();
+            finalTimeText.gameObject.SetActive(true);
+            finalTimeText.text = "Time : " + timer;
+            menuButton.gameObject.SetActive(true);
+            return ;
         }
+        timer = Time.time - timerStart;
+        timeText.text = "Time : " + (int) timer;
+
+        if(!playerInstance){ return ; }
+        
+        scoreText.text = "Score : " + playerInst.GetScore();
+        
     }
 
     public void SpawnPlayer(){
@@ -55,4 +66,6 @@ public class GameController : MonoBehaviour
         SpawnPlayer();
         endLevel = false;
     }
+
+
 }

@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -10,7 +12,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private ParticleSystem particles;
     public bool endLevel;
     [SerializeField] private Button restartButton;
-
+    [SerializeField] private List<GameObject> coins;
+    private float timer, timerStart;
+    [SerializeField] private TextMeshProUGUI timeText, scoreText; 
     private void Awake() {
         particles.Stop();
     }
@@ -18,8 +22,12 @@ public class GameController : MonoBehaviour
         Restart();
     }
     private void Update() {
+        timer = Time.time - timerStart;
+        timeText.text = "Time : " + (int) timer;
+
         if(!playerInstance){ return ; }
         Player playerInst = playerInstance.GetComponent<Player>();
+        scoreText.text = "Score : " + playerInst.GetScore();
         if(endLevel){
             Debug.Log("EndLevel");
             playerInst.canMove = false;
@@ -32,11 +40,17 @@ public class GameController : MonoBehaviour
         playerInstance = Instantiate(player, spawnPoint.position, spawnPoint.rotation);
         cam.SetTarget(playerInstance.transform);
         cam.SetGroundCheck(playerInstance.GetComponentInChildren<CheckGrounded>());
-        playerInstance.GetComponent<Player>().SetParticleSystem(particles);
-        playerInstance.GetComponent<Player>().SetRestartButton(restartButton);
+        Player playerScript = playerInstance.GetComponent<Player>();
+        playerScript.SetParticleSystem(particles);
+        playerScript.SetRestartButton(restartButton);
     }
 
     public void Restart(){
+        timerStart = Time.time;
+        foreach (GameObject coin in coins){
+            coin.SetActive(true);
+            coin.GetComponent<Collider2D>().enabled = true;
+        }
         restartButton.gameObject.SetActive(false);
         SpawnPlayer();
         endLevel = false;

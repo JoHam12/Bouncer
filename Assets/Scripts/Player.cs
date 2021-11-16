@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private ParticleSystem particles;
     public bool canMove, isDead;
     [SerializeField] private Button restartButton;
+    private int score;
 
     void Start(){
         movement = GetComponent<Movement>();
@@ -22,7 +23,8 @@ public class Player : MonoBehaviour
         particles.Stop();
         canMove = true;
         isDead = false;
-        
+        score = 0;
+
     }
     
     private void Update() {
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
     public void SetParticleSystem(ParticleSystem particles){ this.particles = particles; }
     public void SetRestartButton(Button button){ restartButton = button; }
     public void Die(){
+        Debug.Log("Score : " + score);
         isDead = true;
         particles.transform.position = transform.position;
         particles.Play();
@@ -47,4 +50,6 @@ public class Player : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    public void IncrementScore(){ score += 1; }
+    public int GetScore(){ return score; }
 }

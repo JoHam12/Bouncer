@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class GameController : MonoBehaviour
 {
@@ -65,6 +67,10 @@ public class GameController : MonoBehaviour
         restartButton.gameObject.SetActive(false);
         SpawnPlayer();
         endLevel = false;
+    }
+
+    public void LoadMenu(){
+        SceneManager.LoadScene("StartMenu");
     }
 
 

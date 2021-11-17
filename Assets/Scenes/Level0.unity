@@ -84441,6 +84441,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4114019460743700528, guid: 4a6ef1149a2fa1d41aadd8d7a3eb6fe1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114019460743700528, guid: 4a6ef1149a2fa1d41aadd8d7a3eb6fe1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114019460743700528, guid: 4a6ef1149a2fa1d41aadd8d7a3eb6fe1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2095406393}
+    - target: {fileID: 4114019460743700528, guid: 4a6ef1149a2fa1d41aadd8d7a3eb6fe1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114019460743700528, guid: 4a6ef1149a2fa1d41aadd8d7a3eb6fe1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114019460743700528, guid: 4a6ef1149a2fa1d41aadd8d7a3eb6fe1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114019460743700528, guid: 4a6ef1149a2fa1d41aadd8d7a3eb6fe1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114019460743700530, guid: 4a6ef1149a2fa1d41aadd8d7a3eb6fe1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4114019461740890958, guid: 4a6ef1149a2fa1d41aadd8d7a3eb6fe1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -84748,6 +84780,10 @@ PrefabInstance:
     - target: {fileID: 7967552298415213776, guid: 2d816fa6640416741967bc0abcd457e9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967552298415213777, guid: 2d816fa6640416741967bc0abcd457e9, type: 3}
+      propertyPath: movementTime
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7967552298415213790, guid: 2d816fa6640416741967bc0abcd457e9, type: 3}
       propertyPath: m_Name

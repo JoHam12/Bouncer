@@ -52,4 +52,6 @@ public class Player : MonoBehaviour
 
     public void IncrementScore(){ score += 1; }
     public int GetScore(){ return score; }
+
+    
 }

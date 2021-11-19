@@ -24,7 +24,13 @@ public class DestroyablePlatform : MonoBehaviour
             return ; 
         }
         this.gameObject.SetActive(false);
+    }
 
+    public void Reactivate(){
+        activate = false;
+        foreach(SpriteRenderer spriter in spriteRenderers){
+            spriter.enabled = true;
+        } 
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

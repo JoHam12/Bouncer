@@ -8,18 +8,23 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private GameObject player;
+    private bool start;
     private GameObject playerInstance;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private CameraFollow cam;
     [SerializeField] private ParticleSystem particles;
     public bool endLevel;
     [SerializeField] private Button restartButton;
-    [SerializeField] private List<GameObject> coins;
+    [SerializeField] private List<GameObject> coins, platforms, keys;
+    [SerializeField] private List<Door> doors;
+    [SerializeField] private List<Lift> lifts;
     private float timer, timerStart;
     [SerializeField] private TextMeshProUGUI timeText, scoreText; 
     [SerializeField] private Button menuButton;
     [SerializeField] private TextMeshProUGUI finalTimeText, finalScoreText;
+    [SerializeField] private GameObject settingsPanel;
     private void Awake() {
+        start = true;
         particles.Stop();
     }
     private void Start() {
@@ -38,11 +43,12 @@ public class GameController : MonoBehaviour
             finalTimeText.gameObject.SetActive(true);
             finalTimeText.text = "Time : " + timer;
             menuButton.gameObject.SetActive(true);
+            restartButton.gameObject.SetActive(true);
             return ;
         }
         timer = Time.time - timerStart;
         timeText.text = "Time : " + (int) timer;
-
+        
         if(!playerInstance){ return ; }
         
         scoreText.text = "Score : " + playerInst.GetScore();
@@ -59,12 +65,30 @@ public class GameController : MonoBehaviour
     }
 
     public void Restart(){
+        finalScoreText.gameObject.SetActive(false);
+        finalTimeText.gameObject.SetActive(false);
+        menuButton.gameObject.SetActive(false);
         timerStart = Time.time;
         foreach (GameObject coin in coins){
             coin.SetActive(true);
             coin.GetComponent<Collider2D>().enabled = true;
         }
+        foreach (GameObject key in keys){ key.SetActive(true); }
+        foreach (GameObject platform in platforms){ 
+            platform.GetComponent<DestroyablePlatform>().Reactivate();
+            platform.SetActive(true);
+        }
+        foreach(Door door in doors){ door.CloseDoor(); }
+        foreach(Lift lift in lifts){ lift.LiftDown(); }
         restartButton.gameObject.SetActive(false);
+        if(start){ 
+            SpawnPlayer();
+            endLevel = false;
+            start = false;
+            return ;
+            
+        }
+        Destroy(playerInstance);
         SpawnPlayer();
         endLevel = false;
     }
@@ -72,6 +96,14 @@ public class GameController : MonoBehaviour
     public void LoadMenu(){
         SceneManager.LoadScene("StartMenu");
     }
-
+    public void settingsMenuClicked(){
+        settingsPanel.SetActive(true);        
+        if(playerInstance != null){ playerInstance.GetComponent<Player>().canMove = false; }
+    }
+    public void BackButtonClicked(){
+        settingsPanel.SetActive(false);        
+        if(playerInstance != null){ playerInstance.GetComponent<Player>().canMove = true; }
+    }
+    
 
 }

@@ -4,14 +4,14 @@ public class Lift : MonoBehaviour
 {
     [SerializeField] private float acceleration;
     [SerializeField] private Rigidbody2D rb;
-    private float y, initialPosY;
-    private bool getDown, activated;
+    private float y;
+    private Vector2 initialPosition;
+    private bool activated;
     [SerializeField] private float maxDistance, movementTime, minDistance;
     private float mass;
     private void Start(){
-        initialPosY = transform.position.y;
+        initialPosition = transform.position;
         activated = false;
-        getDown = false;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -27,6 +27,10 @@ public class Lift : MonoBehaviour
         }
         
         rb.velocity = (new Vector2(0, (mass * 9.8f) + acceleration));
+    }
+
+    public void LiftDown(){
+        transform.position = initialPosition;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

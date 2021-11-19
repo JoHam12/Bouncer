@@ -4,14 +4,15 @@ public class Bridge : MonoBehaviour
 {
     public bool activated, getDown;
     private float y;
-    [SerializeField] private float distance, movementTime, initialPosY;
+    [SerializeField] private float finalPos, movementTime, initialPosY;
     private void Start() {
         activated = false;
         getDown = false;
         initialPosY = transform.position.y;
+        y = initialPosY;
     }
     private void Update() {
-        if(transform.position.y >= distance-.1f){
+        if(transform.position.y >= finalPos-.1f){
             getDown = true;
             activated = false;
         }
@@ -20,7 +21,7 @@ public class Bridge : MonoBehaviour
             transform.position = new Vector3(transform.position.x, y, transform.position.z);
         }
         if(activated){
-            y = Mathf.Lerp(y, distance, movementTime);
+            y = Mathf.Lerp(y, finalPos, movementTime);
             transform.position = new Vector3(transform.position.x, y, transform.position.z);
         }
         

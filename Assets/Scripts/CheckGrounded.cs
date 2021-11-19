@@ -3,15 +3,14 @@ using UnityEngine;
 public class CheckGrounded : MonoBehaviour
 {
     public bool isGrounded, boostJump;
-    public float boostValue;
-    [SerializeField] private GameObject trailTransform;
+    [SerializeField] private ParticleSystem trailParticle;
     void Start(){
         isGrounded = true;
         boostJump = false;
-        boostValue = 0;
+    
     }
     private void FixedUpdate() {
-        trailTransform.SetActive(!isGrounded);
+        if(!isGrounded){ trailParticle.Play(); }
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Floor")){

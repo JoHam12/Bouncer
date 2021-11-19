@@ -7,6 +7,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private CheckGrounded checkGrounded;
     [SerializeField] private float offset, firstVal;
     private float z, shakeDuration;
+    [Header("Camera Shake Values")]
     [SerializeField] private float shakeAmount, decreaseFactor, shakeMaxDuration;
     private void Start(){
         z = firstVal;

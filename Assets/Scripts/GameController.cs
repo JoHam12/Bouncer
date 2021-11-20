@@ -7,25 +7,28 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    [Header("Player variables")]
     [SerializeField] private GameObject player;
-    private bool start;
     private GameObject playerInstance;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private CameraFollow cam;
-    [SerializeField] private ParticleSystem particles;
-    public bool endLevel;
+    [SerializeField] private ParticleSystem deathParticles;
+    private bool endLevel;
+    private bool start;
+    [Header("UI Elements")]
     [SerializeField] private Button restartButton;
-    [SerializeField] private List<GameObject> coins, platforms, keys;
-    [SerializeField] private List<Door> doors;
-    [SerializeField] private List<Lift> lifts;
-    private float timer, timerStart;
     [SerializeField] private TextMeshProUGUI timeText, scoreText; 
     [SerializeField] private Button menuButton;
     [SerializeField] private TextMeshProUGUI finalTimeText, finalScoreText;
     [SerializeField] private GameObject settingsPanel;
+    [Header("Objects To Reposition Restart")]
+    [SerializeField] private List<GameObject> coins, platforms, keys;
+    [SerializeField] private List<Door> doors;
+    [SerializeField] private List<Lift> lifts;
+    private float timer, timerStart;
     private void Awake() {
         start = true;
-        particles.Stop();
+        deathParticles.Stop();
     }
     private void Start() {
         Restart();
@@ -55,15 +58,17 @@ public class GameController : MonoBehaviour
         
     }
 
+    /// <summary>Spawns player prefab and sets all player variables</summary>
     public void SpawnPlayer(){
         playerInstance = Instantiate(player, spawnPoint.position, spawnPoint.rotation);
         cam.SetTarget(playerInstance.transform);
         cam.SetGroundCheck(playerInstance.GetComponentInChildren<CheckGrounded>());
         Player playerScript = playerInstance.GetComponent<Player>();
-        playerScript.SetParticleSystem(particles);
+        playerScript.SetParticleSystem(deathParticles);
         playerScript.SetRestartButton(restartButton);
     }
-
+    
+    /// <summary>Restarts game </summary>
     public void Restart(){
         finalScoreText.gameObject.SetActive(false);
         finalTimeText.gameObject.SetActive(false);
@@ -93,17 +98,23 @@ public class GameController : MonoBehaviour
         endLevel = false;
     }
 
+    /// <summary> Loads Main Menu </summary>
     public void LoadMenu(){
         SceneManager.LoadScene("StartMenu");
     }
+
+    /// <summary> Function to execute when settings button is clicked (player cant move when settingsPanel is on) </summary>
     public void settingsMenuClicked(){
         settingsPanel.SetActive(true);        
         if(playerInstance != null){ playerInstance.GetComponent<Player>().canMove = false; }
     }
+
+    /// <summary> Function to execute when back button is clicked </summary>
     public void BackButtonClicked(){
         settingsPanel.SetActive(false);        
         if(playerInstance != null){ playerInstance.GetComponent<Player>().canMove = true; }
     }
-    
+    public bool GetEndLevel(){ return endLevel; }
+    public void SetEndLevel(){ endLevel = true; }
 
 }

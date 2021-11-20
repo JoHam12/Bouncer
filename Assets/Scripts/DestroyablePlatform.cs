@@ -4,13 +4,13 @@ using System.Collections.Generic;
 public class DestroyablePlatform : MonoBehaviour
 {
     private bool activate;
-    [SerializeField] private float timeUntilDestruction;
-
     [SerializeField] private SpriteRenderer[] spriteRenderers;
+    [SerializeField] private int numOfSpriteRenderers;
+    [SerializeField] private float timeUntilDestruction;
     private float time;
     private void Start(){
         activate = false;
-        spriteRenderers = new SpriteRenderer[2];
+        spriteRenderers = new SpriteRenderer[numOfSpriteRenderers];
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
     }
 
@@ -25,7 +25,7 @@ public class DestroyablePlatform : MonoBehaviour
         }
         this.gameObject.SetActive(false);
     }
-
+    /// <summary> Reactivates this platform (used at restart) </summary>
     public void Reactivate(){
         activate = false;
         foreach(SpriteRenderer spriter in spriteRenderers){

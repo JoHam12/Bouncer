@@ -5,12 +5,11 @@ public class Door : MonoBehaviour
 {
     [SerializeField] private Transform targetTransform;
     public bool activate, hasKey;
-    private float y, initialPosY;
     [Header("Key UI")] [SerializeField] private Image keyImage;
     [SerializeField] private Sprite keyImageBefore;
+    [Header("Positional variables")]
     [SerializeField] private float distance, movementTime;
-    
-
+    private float y, initialPosY;
     private void Start() {
         activate = false;
         hasKey = false;
@@ -24,16 +23,19 @@ public class Door : MonoBehaviour
         if(!activate){ return ; }
         OpenDoor();
     }
+    ///<summary> Opens door (using transform) </summary>
     public void OpenDoor(){
         y = Mathf.Lerp(y, distance, movementTime);
         targetTransform.localPosition = new Vector3(targetTransform.localPosition.x, y, targetTransform.localPosition.z);
     }
+    /// <summary> Closes door (using transform)(used in restart)</summary>
     public void CloseDoor(){
         targetTransform.localPosition = new Vector3(targetTransform.localPosition.x, initialPosY, targetTransform.localPosition.z);
         y = initialPosY;
         activate = false;
         hasKey = false;
     }
+    /// <summary> Changes door UI </summary>
     public void SetOpen(){
         activate = true;
         keyImage.sprite = keyImageBefore;

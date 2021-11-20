@@ -22,4 +22,10 @@ public class CheckGrounded : MonoBehaviour
             isGrounded = false;
         }
     }
+
+    ///<summary>Set player jump trail </summary>
+    /// <param name="particleSystem"> jump trail </summary>
+    public void SetTrailParticles(ParticleSystem particleSystem){
+        trailParticle = particleSystem;
+    }
 }

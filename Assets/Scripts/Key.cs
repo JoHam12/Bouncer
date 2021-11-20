@@ -5,6 +5,7 @@ public class Key : MonoBehaviour
 {
     [SerializeField] private Door doorTarget;
     [SerializeField] private string color;
+    [Header("UI Elements")]
     [SerializeField] private Image keyImage;
     [SerializeField] private Sprite keyImageAfter;
 

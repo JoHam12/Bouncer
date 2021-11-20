@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    [Header("Target values")]
     [SerializeField] private Transform target;
     [SerializeField] private CheckGrounded checkGrounded;
+    [Header("Camera Movement Values")]
     [SerializeField] private float offset, firstVal;
     private float z, shakeDuration;
     [Header("Camera Shake Values")]
@@ -28,10 +30,15 @@ public class CameraFollow : MonoBehaviour
         }
         z = Mathf.Lerp(z, firstVal, .2f);
     }
-
+    ///<summary> Sets camera target </summary>
+    ///<param name="traget"> value to set target to </param>
     public void SetTarget(Transform target){ this.target = target; }
+
+    ///<summary> Sets checkGroundded attribute </summary>
+    ///<param name="checkGrounded"> value to set checkGrounded to </param>
     public void SetGroundCheck(CheckGrounded checkGrounded){ this.checkGrounded = checkGrounded; }
 
+    ///<summary> Shakes camera (used after death of player) </summary>
     public void ShakeCamera(){
         if (shakeDuration > 0)
 		{

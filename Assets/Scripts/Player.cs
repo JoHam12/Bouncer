@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
     public Rigidbody2D GetRigidbody2D(){ return rb; }
     public void SetParticleSystem(ParticleSystem particles){ this.particles = particles; }
     public void SetRestartButton(Button button){ restartButton = button; }
+
+    /// <summary>Called after player's death</summary>
     public void Die(){
         Debug.Log("Score : " + score);
         isDead = true;
@@ -52,6 +54,5 @@ public class Player : MonoBehaviour
 
     public void IncrementScore(){ score += 1; }
     public int GetScore(){ return score; }
-
-    
+    public CheckGrounded GetCheckGrounded(){ return groundChecker.GetComponent<CheckGrounded>(); }
 }

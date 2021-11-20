@@ -6,9 +6,10 @@ public class Lift : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     private float y;
     private Vector2 initialPosition;
-    private bool activated;
+    [Header("Positional Variables")]
     [SerializeField] private float maxDistance, movementTime, minDistance;
     private float mass;
+    private bool activated;
     private void Start(){
         initialPosition = transform.position;
         activated = false;
@@ -19,8 +20,8 @@ public class Lift : MonoBehaviour
         LiftObject();
     }
 
+    /// <summary>Moves player upwards </summary>
     public void LiftObject(){
-
         if(transform.position.y > maxDistance || transform.position.y < minDistance || !activated){ 
             rb.velocity = Vector2.zero;    
             return ;
@@ -29,6 +30,7 @@ public class Lift : MonoBehaviour
         rb.velocity = (new Vector2(0, (mass * 9.8f) + acceleration));
     }
 
+    ///<summary>Reposition lift</summary>
     public void LiftDown(){
         transform.position = initialPosition;
     }

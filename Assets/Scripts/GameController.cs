@@ -25,8 +25,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<GameObject> coins, platforms, keys;
     [SerializeField] private List<Door> doors;
     [SerializeField] private List<Lift> lifts;
+    [SerializeField] private ParticleSystem coinParticles;
     private float timer, timerStart;
     private void Awake() {
+        coinParticles.gameObject.SetActive(false);
+        coinParticles.Stop();
         start = true;
         deathParticles.Stop();
     }
@@ -116,5 +119,13 @@ public class GameController : MonoBehaviour
     }
     public bool GetEndLevel(){ return endLevel; }
     public void SetEndLevel(){ endLevel = true; }
+
+    ///<summary> Activates coin particle system at coin position </summary>
+    ///<param name="currentCoin"> Coin Transform </param>
+    public void ActivateCoinParticle(Transform currentCoin){
+        coinParticles.transform.position = currentCoin.position;
+        coinParticles.gameObject.SetActive(true);
+        coinParticles.Play();
+    }
 
 }

@@ -7,7 +7,7 @@ public class Lift : MonoBehaviour
     private float y;
     private Vector2 initialPosition;
     [Header("Positional Variables")]
-    [SerializeField] private float maxDistance, movementTime, minDistance;
+    [SerializeField] private float maxPosition, movementTime, minPosition;
     private float mass;
     private bool activated;
     private void Start(){
@@ -18,11 +18,12 @@ public class Lift : MonoBehaviour
 
     private void FixedUpdate() {
         LiftObject();
+        LiftDownSlower();
     }
 
     /// <summary>Moves player upwards </summary>
     public void LiftObject(){
-        if(transform.position.y > maxDistance || transform.position.y < minDistance || !activated){ 
+        if(transform.position.y > maxPosition || transform.position.y < minPosition || !activated){ 
             rb.velocity = Vector2.zero;    
             return ;
         }
@@ -35,8 +36,19 @@ public class Lift : MonoBehaviour
         transform.position = initialPosition;
     }
 
+    /// <summary> Move lift downwards slowly </summary>
+    public void LiftDownSlower(){
+        if(activated){ return ; }
+        if(transform.position.y <= initialPosition.y + .1f){ 
+            rb.velocity = Vector2.zero; 
+            return ; 
+        }
+        rb.velocity = new Vector2(0, -acceleration);
+
+    }
+
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Player") && transform.position.y <= maxDistance-1 && transform.position.y >= minDistance+1){
+        if(other.CompareTag("Player") && transform.position.y <= maxPosition-1 && transform.position.y >= minPosition+1){
             activated = true;
             mass = other.GetComponent<Rigidbody2D>().mass;
         }

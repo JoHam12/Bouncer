@@ -164,3 +164,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circleCollider2D: {fileID: 3044957147396616281}
+  gameController: {fileID: 0}

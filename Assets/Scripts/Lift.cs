@@ -10,6 +10,7 @@ public class Lift : MonoBehaviour
     [SerializeField] private float maxPosition, movementTime, minPosition;
     private float mass;
     private bool activated;
+    [SerializeField] private CameraFollow cam;
     private void Start(){
         initialPosition = transform.position;
         activated = false;
@@ -50,12 +51,14 @@ public class Lift : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Player") && transform.position.y <= maxPosition-1 && transform.position.y >= minPosition+1){
             activated = true;
+            cam.SetIsOnLift(true);
             mass = other.GetComponent<Rigidbody2D>().mass;
         }
     }
     private void OnTriggerExit2D(Collider2D other) {
         if(other.CompareTag("Player")){
             activated = false;
+            cam.SetIsOnLift(false);
             rb.velocity = Vector2.zero;
         }
     }

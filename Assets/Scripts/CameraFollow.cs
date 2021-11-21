@@ -7,8 +7,9 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private CheckGrounded checkGrounded;
     [Header("Camera Movement Values")]
-    [SerializeField] private float offset, firstVal;
+    [SerializeField] private float offset, firstVal, onLiftOffset;
     private float z, shakeDuration;
+    private bool isOnLift;
     [Header("Camera Shake Values")]
     [SerializeField] private float shakeAmount, decreaseFactor, shakeMaxDuration;
     private void Start(){
@@ -21,11 +22,15 @@ public class CameraFollow : MonoBehaviour
         if(!target){ 
             ShakeCamera();
             return ; 
-        }
+        }        
         shakeDuration = shakeMaxDuration;
         transform.position = new Vector3(target.position.x, target.position.y, z);    
         if(!checkGrounded.isGrounded){
             z = Mathf.Lerp(z, offset, .2f);
+            return ;
+        }
+        if(isOnLift){
+            z = Mathf.Lerp(z, onLiftOffset, .2f);
             return ;
         }
         z = Mathf.Lerp(z, firstVal, .2f);
@@ -46,5 +51,9 @@ public class CameraFollow : MonoBehaviour
 			
 			shakeDuration -= Time.deltaTime * decreaseFactor;
 		}
+    }
+
+    public void SetIsOnLift(bool state){
+        isOnLift = state;
     }
 }

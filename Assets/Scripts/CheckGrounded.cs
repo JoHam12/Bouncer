@@ -24,7 +24,7 @@ public class CheckGrounded : MonoBehaviour
     }
 
     ///<summary>Set player jump trail </summary>
-    /// <param name="particleSystem"> jump trail </summary>
+    /// <param name="particleSystem"> jump trail </param>
     public void SetTrailParticles(ParticleSystem particleSystem){
         trailParticle = particleSystem;
     }

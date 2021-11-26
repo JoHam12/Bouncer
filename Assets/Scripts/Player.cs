@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private static Rigidbody2D rb;
     [SerializeField] private Movement movement;
-    private float horizontal;
+    public float horizontal;
     private Vector3 direction;
     public bool isJumping;
     [SerializeField] private Transform groundChecker;
@@ -24,17 +24,19 @@ public class Player : MonoBehaviour
         canMove = true;
         isDead = false;
         score = 0;
-
+        horizontal = 0;
     }
     
     private void Update() {
         if(!canMove){ return ; }
-        horizontal = Input.GetAxisRaw("Horizontal");
+        // horizontal = Input.GetAxisRaw("Horizontal");
         direction = new Vector3(horizontal, 0, 0);
-        isJumping = Input.GetKey(KeyCode.Space);
+        Debug.Log(horizontal);
+        // isJumping = Input.GetKey(KeyCode.Space);
     }
     private void FixedUpdate() {
         if(!canMove){ return ; }
+        
         movement.Move(rb, direction, isJumping);
     }
 
@@ -52,6 +54,7 @@ public class Player : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    /// <summary> Adds 1 to player score </summary>
     public void IncrementScore(){ score += 1; }
     public int GetScore(){ return score; }
     public CheckGrounded GetCheckGrounded(){ return groundChecker.GetComponent<CheckGrounded>(); }

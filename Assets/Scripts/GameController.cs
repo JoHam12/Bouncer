@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     [Header("Player variables")]
     [SerializeField] private GameObject player;
     private GameObject playerInstance;
+    private Player playerScript;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private CameraFollow cam;
     [SerializeField] private ParticleSystem deathParticles;
@@ -21,15 +22,14 @@ public class GameController : MonoBehaviour
     [SerializeField] private Button menuButton;
     [SerializeField] private TextMeshProUGUI finalTimeText, finalScoreText;
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private MovementButton leftButton, rightButton, jumpButton;
     [Header("Objects To Reposition Restart")]
-    [SerializeField] private List<GameObject> coins, platforms, keys;
+    [SerializeField] private List<GameObject> platforms, keys;
+    [SerializeField] private List<Coin> coins;
     [SerializeField] private List<Door> doors;
     [SerializeField] private List<Lift> lifts;
-    [SerializeField] private ParticleSystem coinParticles;
     private float timer, timerStart;
     private void Awake() {
-        coinParticles.gameObject.SetActive(false);
-        coinParticles.Stop();
         start = true;
         deathParticles.Stop();
     }
@@ -39,13 +39,12 @@ public class GameController : MonoBehaviour
     private void Update() {
 
         if(playerInstance == null){ return ; }
-        Player playerInst = playerInstance.GetComponent<Player>();
         if(endLevel){
             Debug.Log("EndLevel");
-            playerInst.canMove = false;
+            playerScript.canMove = false;
             playerInstance.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             finalScoreText.gameObject.SetActive(true);
-            finalScoreText.text = "Score : " + playerInst.GetScore();
+            finalScoreText.text = "Score : " + playerScript.GetScore();
             finalTimeText.gameObject.SetActive(true);
             finalTimeText.text = "Time : " + timer;
             menuButton.gameObject.SetActive(true);
@@ -57,7 +56,7 @@ public class GameController : MonoBehaviour
         
         if(!playerInstance){ return ; }
         
-        scoreText.text = "Score : " + playerInst.GetScore();
+        scoreText.text = "Score : " + playerScript.GetScore();
         
     }
 
@@ -66,9 +65,13 @@ public class GameController : MonoBehaviour
         playerInstance = Instantiate(player, spawnPoint.position, spawnPoint.rotation);
         cam.SetTarget(playerInstance.transform);
         cam.SetGroundCheck(playerInstance.GetComponentInChildren<CheckGrounded>());
-        Player playerScript = playerInstance.GetComponent<Player>();
+        playerScript = playerInstance.GetComponent<Player>();
         playerScript.SetParticleSystem(deathParticles);
         playerScript.SetRestartButton(restartButton);
+
+        rightButton.SetPlayer(playerScript);
+        leftButton.SetPlayer(playerScript);
+        jumpButton.SetPlayer(playerScript);
     }
     
     /// <summary>Restarts game </summary>
@@ -77,9 +80,9 @@ public class GameController : MonoBehaviour
         finalTimeText.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
         timerStart = Time.time;
-        foreach (GameObject coin in coins){
-            coin.SetActive(true);
-            coin.GetComponent<Collider2D>().enabled = true;
+        foreach (Coin coin in coins){
+            coin.gameObject.SetActive(true);
+            coin.GetComponentInChildren<Collider2D>().enabled = true;
         }
         foreach (GameObject key in keys){ key.SetActive(true); }
         foreach (GameObject platform in platforms){ 
@@ -89,6 +92,7 @@ public class GameController : MonoBehaviour
         foreach(Door door in doors){ door.CloseDoor(); }
         foreach(Lift lift in lifts){ lift.LiftDown(); }
         restartButton.gameObject.SetActive(false);
+
         if(start){ 
             SpawnPlayer();
             endLevel = false;
@@ -120,12 +124,16 @@ public class GameController : MonoBehaviour
     public bool GetEndLevel(){ return endLevel; }
     public void SetEndLevel(){ endLevel = true; }
 
-    ///<summary> Activates coin particle system at coin position </summary>
-    ///<param name="currentCoin"> Coin Transform </param>
-    public void ActivateCoinParticle(Transform currentCoin){
-        coinParticles.transform.position = currentCoin.position;
-        coinParticles.gameObject.SetActive(true);
-        coinParticles.Play();
+
+    public void MovePlayerLeft(){
+        if(playerScript == null){ return ; }
+        playerScript.horizontal = -1;
+    }
+    public void MovePlayerRight(){
+        
+        if(playerScript == null){ return ; }
+        Debug.Log("Clicked");
+        playerScript.horizontal = 1;
     }
 
 }

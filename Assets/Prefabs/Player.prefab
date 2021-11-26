@@ -4990,6 +4990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 2827578780901336172}
+  horizontal: 0
   isJumping: 0
   groundChecker: {fileID: 2827578781635340330}
   particles: {fileID: 0}
@@ -5025,7 +5026,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.7
-  m_LinearDrag: 0
+  m_LinearDrag: 0.5
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}

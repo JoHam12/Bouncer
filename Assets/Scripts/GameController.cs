@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<Coin> coins;
     [SerializeField] private List<Door> doors;
     [SerializeField] private List<Lift> lifts;
+    [SerializeField] private AdsManager ads;
     private float timer, timerStart;
     private void Awake() {
         start = true;
@@ -89,7 +90,10 @@ public class GameController : MonoBehaviour
             platform.GetComponent<DestroyablePlatform>().Reactivate();
             platform.SetActive(true);
         }
-        foreach(Door door in doors){ door.CloseDoor(); }
+        foreach(Door door in doors){ 
+            door.CloseDoor();
+            door.SetKeyImageUI();
+        }
         foreach(Lift lift in lifts){ lift.LiftDown(); }
         restartButton.gameObject.SetActive(false);
 
@@ -101,6 +105,7 @@ public class GameController : MonoBehaviour
             
         }
         Destroy(playerInstance);
+        ads.PlayAd();
         SpawnPlayer();
         endLevel = false;
     }

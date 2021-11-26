@@ -38,7 +38,7 @@ public class Door : MonoBehaviour
     /// <summary> Changes door UI </summary>
     public void SetOpen(){
         activate = true;
-        keyImage.sprite = keyImageBefore;
+        SetKeyImageUI();
     }
     public void SetHasKey(){ hasKey = true; }
 
@@ -47,5 +47,9 @@ public class Door : MonoBehaviour
             SetOpen();
             hasKey = false;
         }
+    }
+
+    public void SetKeyImageUI(){
+        keyImage.sprite = keyImageBefore;
     }
 }

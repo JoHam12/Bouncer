@@ -13,8 +13,4 @@ public class StartButton : MonoBehaviour
     private void Start() {
         startButton = GetComponent<Button>();
     }
-    public void StartButtonClicked(){
-
-    }
-    
 }

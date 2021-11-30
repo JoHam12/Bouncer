@@ -101,6 +101,7 @@ MonoBehaviour:
   checkGrounded: {fileID: 0}
   offset: -35
   firstVal: -25
+  onLiftOffset: -15
   shakeAmount: 0.15
   decreaseFactor: 1
   shakeMaxDuration: 1.5

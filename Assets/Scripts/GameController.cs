@@ -28,11 +28,21 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<Coin> coins;
     [SerializeField] private List<Door> doors;
     [SerializeField] private List<Lift> lifts;
+    [Header("Score")]
+    [SerializeField] private int highScore;
+    [SerializeField] private float bestTime;
+    [SerializeField] private int levelId;
     [SerializeField] private AdsManager ads;
     private float timer, timerStart;
+    
     private void Awake() {
         start = true;
         deathParticles.Stop();
+        Data data = SaveSystem.LoadData(levelId);
+        
+        if(data == null){ return ; }
+        SetBestTime(data);
+        SetHighScore(data);
     }
     private void Start() {
         Restart();
@@ -48,6 +58,17 @@ public class GameController : MonoBehaviour
             finalScoreText.text = "Score : " + playerScript.GetScore();
             finalTimeText.gameObject.SetActive(true);
             finalTimeText.text = "Time : " + timer;
+            if(playerScript.GetScore() >= highScore){
+                if(playerScript.GetScore() > highScore){
+                    Debug.Log("New HighScore");
+                    highScore = playerScript.GetScore();
+                }
+                if(timer <= bestTime || bestTime == 0){
+                    bestTime = timer;
+                }
+
+                SaveSystem.SavePlayer(playerScript, this);
+            }
             menuButton.gameObject.SetActive(true);
             restartButton.gameObject.SetActive(true);
             return ;
@@ -129,11 +150,12 @@ public class GameController : MonoBehaviour
     public bool GetEndLevel(){ return endLevel; }
     public void SetEndLevel(){ endLevel = true; }
 
-
+    ///<summary> Moves Player Left (used for buttons) </summary>
     public void MovePlayerLeft(){
         if(playerScript == null){ return ; }
         playerScript.horizontal = -1;
     }
+    ///<summary> Moves Player Right (used for buttons) </summary>
     public void MovePlayerRight(){
         
         if(playerScript == null){ return ; }
@@ -141,4 +163,13 @@ public class GameController : MonoBehaviour
         playerScript.horizontal = 1;
     }
 
+    public float GetTime(){ return timer; }
+    public int GetLevel(){ return levelId; }
+    public void SetLevelId(int id){ levelId = id; }
+    /// <summary> Sets highScore from saved data </summary>
+    /// <param name="data"> saved data </param>
+    public void SetHighScore(Data data){ highScore = data.score; }
+    /// <summary> Sets bestTime from saved data </summary>
+    /// <param name="data"> saved data </param>
+    public void SetBestTime(Data data){ bestTime = data.time; }
 }

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 
 public class GameController : MonoBehaviour
@@ -24,7 +25,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private MovementButton leftButton, rightButton, jumpButton;
     [Header("Objects To Reposition Restart")]
-    [SerializeField] private List<GameObject> platforms, keys;
+    [SerializeField] private List<GameObject> keys;
+    [SerializeField] private List<DestroyablePlatform> platforms;
     [SerializeField] private List<Coin> coins;
     [SerializeField] private List<Door> doors;
     [SerializeField] private List<Lift> lifts;
@@ -32,6 +34,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private int highScore;
     [SerializeField] private float bestTime;
     [SerializeField] private int levelId;
+    [SerializeField] private bool hasStar;
     [SerializeField] private AdsManager ads;
     private float timer, timerStart;
     
@@ -39,10 +42,11 @@ public class GameController : MonoBehaviour
         start = true;
         deathParticles.Stop();
         Data data = SaveSystem.LoadData(levelId);
-        
+        hasStar = false;
         if(data == null){ return ; }
         SetBestTime(data);
         SetHighScore(data);
+        hasStar = data.starTaken;
     }
     private void Start() {
         Restart();
@@ -101,15 +105,15 @@ public class GameController : MonoBehaviour
         finalScoreText.gameObject.SetActive(false);
         finalTimeText.gameObject.SetActive(false);
         menuButton.gameObject.SetActive(false);
-        timerStart = Time.time;
+        
         foreach (Coin coin in coins){
             coin.gameObject.SetActive(true);
             coin.GetComponentInChildren<Collider2D>().enabled = true;
         }
         foreach (GameObject key in keys){ key.SetActive(true); }
-        foreach (GameObject platform in platforms){ 
-            platform.GetComponent<DestroyablePlatform>().Reactivate();
-            platform.SetActive(true);
+        foreach (DestroyablePlatform platform in platforms){ 
+            platform.Reactivate();
+            platform.gameObject.SetActive(true);
         }
         foreach(Door door in doors){ 
             door.CloseDoor();
@@ -117,7 +121,8 @@ public class GameController : MonoBehaviour
         }
         foreach(Lift lift in lifts){ lift.LiftDown(); }
         restartButton.gameObject.SetActive(false);
-
+        
+        timerStart = Time.time;
         if(start){ 
             SpawnPlayer();
             endLevel = false;
@@ -126,6 +131,7 @@ public class GameController : MonoBehaviour
             
         }
         Destroy(playerInstance);
+        //here
         ads.PlayAd();
         SpawnPlayer();
         endLevel = false;
@@ -172,4 +178,12 @@ public class GameController : MonoBehaviour
     /// <summary> Sets bestTime from saved data </summary>
     /// <param name="data"> saved data </param>
     public void SetBestTime(Data data){ bestTime = data.time; }
+    public bool GetHasStar(){ return hasStar; }
+    public void SetHasStar(){ hasStar = true; }
+
+    // IEnumerator PlayAdTillCompletion(){
+    //     if(ads.)
+
+    //     yield return null;
+    // }
 }

@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Button restartButton;
     private int score;
     public bool test;
+    
     void Start(){
         movement = GetComponent<Movement>();
         rb = GetComponent<Rigidbody2D>();

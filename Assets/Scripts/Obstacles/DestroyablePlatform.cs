@@ -7,7 +7,11 @@ public class DestroyablePlatform : MonoBehaviour
     [SerializeField] private SpriteRenderer[] spriteRenderers;
     [SerializeField] private int numOfSpriteRenderers;
     [SerializeField] private float timeUntilDestruction;
+    [SerializeField] private ParticleSystem destructionParticle;
     private float time;
+    private void Awake() {
+        destructionParticle.Stop();
+    }
     private void Start(){
         activate = false;
         spriteRenderers = new SpriteRenderer[numOfSpriteRenderers];
@@ -23,6 +27,7 @@ public class DestroyablePlatform : MonoBehaviour
             time += Time.fixedDeltaTime;   
             return ; 
         }
+        destructionParticle.Play();
         this.gameObject.SetActive(false);
     }
     /// <summary> Reactivates this platform (used at restart) </summary>

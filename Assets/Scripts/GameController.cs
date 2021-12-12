@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     private bool endLevel;
     private bool start;
     [Header("UI Elements")]
-    [SerializeField] private Button restartButton;
+    [SerializeField] private Button restartButton, doubleScoreButton;
     [SerializeField] private TextMeshProUGUI timeText, scoreText; 
     [SerializeField] private Button menuButton;
     [SerializeField] private TextMeshProUGUI finalTimeText, finalScoreText;
@@ -37,7 +37,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private bool hasStar;
     [SerializeField] private AdsManager ads;
     private float timer, timerStart;
-    
+    public bool canSpawn;
+    public bool getReward;
     private void Awake() {
         start = true;
         deathParticles.Stop();
@@ -47,13 +48,26 @@ public class GameController : MonoBehaviour
         SetBestTime(data);
         SetHighScore(data);
         hasStar = data.starTaken;
+        canSpawn = false;
+        getReward = false;
     }
     private void Start() {
         Restart();
     }
     private void Update() {
+        if(canSpawn){
+            timerStart = Time.time;
+            SpawnPlayer();
+            endLevel = false;
+            canSpawn = false;
+        }
+        if(getReward){
+            
+        }
 
         if(playerInstance == null){ return ; }
+        
+        
         if(endLevel){
             Debug.Log("EndLevel");
             playerScript.canMove = false;
@@ -75,6 +89,7 @@ public class GameController : MonoBehaviour
             }
             menuButton.gameObject.SetActive(true);
             restartButton.gameObject.SetActive(true);
+            doubleScoreButton.gameObject.SetActive(true);
             return ;
         }
         timer = Time.time - timerStart;
@@ -87,7 +102,7 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>Spawns player prefab and sets all player variables</summary>
-    public void SpawnPlayer(){
+    private void SpawnPlayer(){
         playerInstance = Instantiate(player, spawnPoint.position, spawnPoint.rotation);
         cam.SetTarget(playerInstance.transform);
         cam.SetGroundCheck(playerInstance.GetComponentInChildren<CheckGrounded>());
@@ -98,6 +113,7 @@ public class GameController : MonoBehaviour
         rightButton.SetPlayer(playerScript);
         leftButton.SetPlayer(playerScript);
         jumpButton.SetPlayer(playerScript);
+
     }
     
     /// <summary>Restarts game </summary>
@@ -121,6 +137,7 @@ public class GameController : MonoBehaviour
         }
         foreach(Lift lift in lifts){ lift.LiftDown(); }
         restartButton.gameObject.SetActive(false);
+        doubleScoreButton.gameObject.SetActive(false);
         
         timerStart = Time.time;
         if(start){ 
@@ -131,10 +148,8 @@ public class GameController : MonoBehaviour
             
         }
         Destroy(playerInstance);
-        //here
         ads.PlayAd();
-        SpawnPlayer();
-        endLevel = false;
+
     }
 
     /// <summary> Loads Main Menu </summary>
@@ -153,6 +168,10 @@ public class GameController : MonoBehaviour
         settingsPanel.SetActive(false);        
         if(playerInstance != null){ playerInstance.GetComponent<Player>().canMove = true; }
     }
+
+    public void DoubleScore(){
+        ads.PlayRewardedAd();
+    }
     public bool GetEndLevel(){ return endLevel; }
     public void SetEndLevel(){ endLevel = true; }
 
@@ -168,6 +187,8 @@ public class GameController : MonoBehaviour
         Debug.Log("Clicked");
         playerScript.horizontal = 1;
     }
+
+
 
     public float GetTime(){ return timer; }
     public int GetLevel(){ return levelId; }

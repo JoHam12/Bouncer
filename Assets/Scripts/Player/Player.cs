@@ -14,19 +14,19 @@ public class Player : MonoBehaviour
     [SerializeField] private Button restartButton;
     private int score;
     public bool test;
-    
+    [SerializeField] private Vector2 lastGroundPos;
     void Start(){
         movement = GetComponent<Movement>();
         rb = GetComponent<Rigidbody2D>();
         isJumping = false;
-        
+        lastGroundPos = transform.position;
         particles = transform.Find("/DeathParticles").GetComponent<ParticleSystem>();
         particles.Stop();
         canMove = true;
         isDead = false;
         score = 0;
         horizontal = 0;
-        test = true;
+        test = false; // Test with keyboard input
     }
     
     private void Update() {
@@ -47,6 +47,9 @@ public class Player : MonoBehaviour
         if(!canMove){ return ; }
         
         movement.Move(rb, direction, isJumping);
+        if(!groundChecker.GetComponent<CheckGrounded>().isGrounded){
+            lastGroundPos = transform.position;
+        }
     }
 
     public Rigidbody2D GetRigidbody2D(){ return rb; }

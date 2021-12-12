@@ -5,10 +5,16 @@ using System.Collections;
 public class AdsManager : MonoBehaviour, IUnityAdsListener
 {
     private string gameId = "4474497";
+    [SerializeField] private GameController gameController;
     private void Start() {
         Advertisement.Initialize(gameId);
         Advertisement.AddListener(this);
         ShowBanner();
+        if(GameObject.Find("/GameController") == null){
+            return ;
+        }
+        gameController = GameObject.Find("/GameController").GetComponent<GameController>();
+        
     }
 
     public void PlayAd(){
@@ -49,6 +55,10 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult){
         if(placementId == "Rewarded_Android" && showResult == ShowResult.Finished){
             Debug.Log("Reward");
+        }
+        if(gameController && placementId == "Interstitial_Android" && (showResult == ShowResult.Skipped || showResult == ShowResult.Finished)){
+            Debug.Log("Interstitial Ad Over");
+            gameController.canSpawn = true;
         }
     }
 }

@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    private AudioSource gameMusic;
+    public AudioSource gameMusic { get ; private set ; }
+    private static MusicManager instance;
     private void Start() {
         gameMusic = GetComponent<AudioSource>();
-    }
-    private void Update() {
-        DontDestroyOnLoad(this.gameObject);
-    }
-
+        if (instance == null) {
+			instance = this;
+			DontDestroyOnLoad (gameObject);
+		} else {
+			Destroy (gameObject);
+		}
+	}
 }

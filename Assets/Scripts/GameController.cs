@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     private bool endLevel;
     private bool start;
     [Header("UI Elements")]
-    [SerializeField] private Button restartButton, doubleScoreButton;
+    [SerializeField] private Button restartButton;
     [SerializeField] private TextMeshProUGUI timeText, scoreText; 
     [SerializeField] private Button menuButton;
     [SerializeField] private TextMeshProUGUI finalTimeText, finalScoreText;
@@ -89,7 +89,6 @@ public class GameController : MonoBehaviour
             }
             menuButton.gameObject.SetActive(true);
             restartButton.gameObject.SetActive(true);
-            doubleScoreButton.gameObject.SetActive(true);
             return ;
         }
         timer = Time.time - timerStart;
@@ -137,7 +136,6 @@ public class GameController : MonoBehaviour
         }
         foreach(Lift lift in lifts){ lift.LiftDown(); }
         restartButton.gameObject.SetActive(false);
-        doubleScoreButton.gameObject.SetActive(false);
         
         timerStart = Time.time;
         if(start){ 
@@ -167,10 +165,6 @@ public class GameController : MonoBehaviour
     public void BackButtonClicked(){
         settingsPanel.SetActive(false);        
         if(playerInstance != null){ playerInstance.GetComponent<Player>().canMove = true; }
-    }
-
-    public void DoubleScore(){
-        ads.PlayRewardedAd();
     }
     public bool GetEndLevel(){ return endLevel; }
     public void SetEndLevel(){ endLevel = true; }
